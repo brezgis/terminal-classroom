@@ -16,5 +16,4 @@ build/
 # Personal launcher scripts
 *-chat.sh
 !tui/tutor-chat.sh
-!tui/agent-chat.sh
 CODE_REVIEW.md
