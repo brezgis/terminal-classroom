@@ -187,7 +187,29 @@ See [docs/pedagogy.md](docs/pedagogy.md) for the full research deep dive.
 | [examples/soul.md](examples/soul.md) | Copy-paste-ready system prompt for your tutor agent |
 | [tui/tutor-session.sh](tui/tutor-session.sh) | tmux launcher script for split-screen tutoring |
 | [examples/course-config.md](examples/course-config.md) | Example course configuration and knowledge tracking |
+| [tui/agent-chat.sh](tui/agent-chat.sh) | Standalone chat REPL — talk to any OpenClaw agent from your terminal |
 | [tui/](tui/) | Interactive terminal classroom: chat REPL + tmux session launcher |
+
+---
+
+## Standalone Agent Chat
+
+Don't need the full tmux session? Just want to talk to your agent from a terminal?
+
+```bash
+# Chat with your main agent locally
+./tui/agent-chat.sh main
+
+# Chat with a remote agent over SSH
+./tui/agent-chat.sh tutor myserver
+
+# Custom color (hex, no #) — because why not
+./tui/agent-chat.sh main myserver d97757
+```
+
+Messages are prefixed with `[terminal]` so the agent can detect the medium and skip markdown formatting. Set `OPENCLAW` if your binary isn't in PATH.
+
+Designed for terminal-heavy users and tmux fanatics who'd rather type `cb` than open a browser.
 
 ---
 
