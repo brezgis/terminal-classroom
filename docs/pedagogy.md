@@ -266,6 +266,14 @@ Canning et al. found in *Science Advances* that faculty mindset beliefs predicte
 
 The most powerful intervention is "wise feedback" (Yeager et al.): framing critical feedback as **"I'm giving you these comments because I have high standards and I believe you can meet them."** In studies, this dramatically improved trust and performance among underrepresented students.
 
+Cheong, Pajares, and Oberman (2004) found that experiencing **relatedness** with instructors was crucial for *adaptive* help-seeking behavior — the kind where students seek understanding rather than just answers. Without trust, help-seeking degrades into one of two failure modes: avoidance (never asking because it feels too vulnerable) or shortcutting ("just give me the answer so I can stop feeling incompetent"). A warm relationship is what makes productive help-seeking possible.
+
+### Humor as a Cognitive Tool
+
+A five-decade review (*Frontiers in Psychology*, 2025) found that **content-related humor positively influences learning** by engaging both affective and cognitive systems, while aggressive humor and off-topic humor are detrimental. TED analysis shows popular educators use humor 3× more frequently than less popular ones.
+
+The mechanism: humor activates the brain's reward system, creating positive associations with material that might otherwise trigger avoidance. Domain-relevant humor — jokes about off-by-one errors, absurd variable names, the existential horror of null pointer exceptions — simultaneously teaches and defuses the frustration that derails learning in technical subjects. If you can laugh about a bug, it's not a threat to your identity.
+
 A tutor that's warm but unchallenging is a friend. A tutor that's challenging but cold is a drill sergeant. Neither teaches. You need both.
 
 ---
@@ -288,6 +296,19 @@ The word **"yet"** is doing real work. It reframes a knowledge gap as a temporar
 Normalizing confusion is part of this. When a student says "I'm so lost," the response isn't "Let me explain" — it's **"That's your brain building new connections. Let's find where the confusion starts."** Confusion acknowledged is confusion halfway resolved.
 
 CS-specific research (Murphy & Thomas, 2008) found that growth mindset interventions improve interest and persistence in CS. Krause-Levy et al. (ICER 2021) found that **the first CS course is the critical window** where belonging is built or destroyed — early emotional and relational investments have outsized returns on persistence.
+
+### References
+- Kleinfeld, J. (1975). Effective Teachers of Eskimo and Indian Students. *School Review*, 83(2), 301–344.
+- Ware, F. (2006). Warm Demander Pedagogy: Culturally Responsive Teaching that Supports a Culture of Achievement for African American Students. *Urban Education*, 41(4), 427–456.
+- Edmondson, A. (1999). Psychological Safety and Learning Behavior in Work Teams. *Administrative Science Quarterly*, 44(2), 350–383.
+- Canning, E. A., et al. (2019). STEM Faculty Who Believe Ability Is Fixed Have Larger Racial Achievement Gaps. *Science Advances*, 5(2).
+- Yeager, D. S., et al. (2014). Breaking the Cycle of Mistrust: Wise Interventions to Provide Critical Feedback Across the Racial Divide. *Journal of Experimental Psychology: General*, 143(2), 804–824.
+- Cheong, Y. F., Pajares, F., & Oberman, P. S. (2004). Motivation and Academic Help-Seeking in High School Computer Science. *Computer Science Education*, 14(1), 3–19.
+- Dweck, C. S. (2006). *Mindset: The New Psychology of Success*. Random House.
+- Murphy, L., & Thomas, L. (2008). Dangers of a Fixed Mindset: Implications of Self-Theories Research for Computer Science Education. *ACM SIGCSE Bulletin*, 40(3), 271–275.
+- Krause-Levy, S., et al. (2021). The Relationship Between Sense of Belonging and Student Outcomes in CS1 and Beyond. *Proceedings of ICER 2021*.
+- D'Mello, S., & Graesser, A. (2012). Dynamics of Affective States during Complex Learning. *Learning and Instruction*, 22(2), 145–157.
+- Kafai, Y. B., et al. (2019). Debugging as a Context for Fostering Productive Failure. *Proceedings of SIGCSE 2019*.
 
 ---
 
