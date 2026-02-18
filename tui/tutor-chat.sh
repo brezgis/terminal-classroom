@@ -1,8 +1,7 @@
 #!/bin/bash
-# tutor-chat.sh — Interactive REPL for chatting with your tutor agent
-# Sends messages via OpenClaw's agent CLI over SSH (or locally)
-#
+# tutor-chat.sh — Interactive chat REPL for your tutor agent
 # Usage: ./tutor-chat.sh [agent-name] [server-host]
+# Example: ./tutor-chat.sh tutor myserver
 
 AGENT="${1:-tutor}"
 SERVER="${2:-localhost}"
@@ -17,30 +16,25 @@ echo -e "${CYAN}${BOLD}${AGENT}${RESET} ${DIM}— CS Tutor${RESET}"
 echo -e "${DIM}Type your message and press Enter. Ctrl+C to exit.${RESET}"
 echo ""
 
-send_message() {
-  local msg="$1"
-  if [[ "$SERVER" == "localhost" || "$SERVER" == "local" ]]; then
-    openclaw agent --agent "$AGENT" --message "$msg" 2>/dev/null
-  else
-    ssh "$SERVER" "openclaw agent --agent '$AGENT' --message '$msg'" 2>/dev/null
-  fi
-}
-
 while true; do
   echo -ne "${GREEN}you → ${RESET}"
   read -r msg
-
   if [ -z "$msg" ]; then continue; fi
-
   if [[ "$msg" == "quit" || "$msg" == "exit" || "$msg" == "bye" ]]; then
-    echo -e "\n${DIM}Ending session...${RESET}"
-    send_message "/end-session"
-    echo -e "${DIM}Session ended. Your tutor wrote a summary.${RESET}"
+    echo -e "${DIM}Session ended. Your tutor will write the summary.${RESET}"
+    if [[ "$SERVER" == "localhost" ]]; then
+      openclaw agent --agent "$AGENT" --message 'Session over, thanks!' > /dev/null 2>&1
+    else
+      ssh "$SERVER" "openclaw agent --agent $AGENT --message 'Session over, thanks!'" > /dev/null 2>&1
+    fi
     break
   fi
 
   echo ""
-  response=$(send_message "$msg")
-  echo -e "${CYAN}${BOLD}${AGENT}${RESET}: $response"
+  if [[ "$SERVER" == "localhost" ]]; then
+    openclaw agent --agent "$AGENT" --message "$(echo "$msg" | sed "s/'/'\\\\''/g")" 2>/dev/null | sed "s/^/ /"
+  else
+    ssh "$SERVER" "openclaw agent --agent $AGENT --message '$(echo "$msg" | sed "s/'/'\\\\''/g")'" 2>/dev/null | sed "s/^/ /"
+  fi
   echo ""
 done
