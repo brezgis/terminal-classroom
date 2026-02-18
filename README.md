@@ -122,9 +122,27 @@ mkdir -p ~/.openclaw/agents/tutor/{course-state,session-summaries}
 # Or manually: create a tmux split with the tutor in the right pane
 ```
 
-### 5. Start working
+### 5. Add the `rr` command wrapper
 
-Open your editor in the left pane, write code, run tests. The tutor watches your terminal and files. When you're stuck, ask it. When you're not stuck, it stays quiet.
+The tutor can only see your terminal output if it's captured to a file. Add this to your `~/.bashrc` or `~/.zshrc`:
+
+```bash
+rr() { "$@" 2>&1 | tee .terminal.log; }
+```
+
+Now use `rr` to run commands in the left pane:
+
+```bash
+rr javac MyCode.java    # compile — tutor sees errors
+rr java MyCode           # run — tutor sees output
+rr python3 solution.py   # works with any language
+```
+
+The `.terminal.log` file syncs to the server (via Syncthing, sshfs, or similar), so the tutor can read your compiler errors and output in real time. Without `rr`, the tutor can still see your source files but won't know what happened when you ran them.
+
+### 6. Start working
+
+Open your editor in the left pane. Use `rr` to compile and run. The tutor watches your files and terminal output. When you're stuck, ask it. When you're not stuck, it stays quiet.
 
 ---
 
