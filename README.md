@@ -1,4 +1,4 @@
-# Classroom
+# Terminal Classroom
 
 **Most AI coding tutors are just autocomplete with a chat window. Here's how to build one that actually teaches.**
 
@@ -22,7 +22,7 @@ Yes. That's what this framework is.
 
 ## What This Is
 
-Classroom is an open-source framework for building a **pedagogically grounded AI coding tutor** using [OpenClaw](https://github.com/nicholasgasior/openclaw). The tutor:
+Terminal Classroom is an open-source framework for building a **pedagogically grounded AI coding tutor** using [OpenClaw](https://github.com/nicholasgasior/openclaw). The tutor:
 
 - **Lives in a tmux pane** alongside your editor and terminal — not a separate app you alt-tab to
 - **Sees your terminal output** via `tmux capture-pane` — compiler errors, test results, stack traces, all in real time
@@ -37,7 +37,7 @@ It's not a product. It's a blueprint and a set of principles, backed by real CS 
 
 ## How It's Different
 
-| Feature | CS50 Duck | Copilot Chat | Cursor | Khanmigo | Continue.dev | **Classroom** |
+| Feature | CS50 Duck | Copilot Chat | Cursor | Khanmigo | Continue.dev | **Terminal Classroom** |
 |---|---|---|---|---|---|---|
 | Socratic method | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ |
 | Sees your files | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ |
@@ -97,8 +97,8 @@ See [docs/architecture.md](docs/architecture.md) for the full technical deep div
 ### 1. Clone this repo
 
 ```bash
-git clone https://github.com/brezgis/classroom.git
-cd classroom
+git clone https://github.com/brezgis/terminal-classroom.git
+cd terminal-classroom
 ```
 
 ### 2. Copy the example tutor prompt
