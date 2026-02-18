@@ -160,8 +160,9 @@ See [docs/pedagogy.md](docs/pedagogy.md) for the full research deep dive.
 | [docs/architecture.md](docs/architecture.md) | Technical architecture: tmux integration, file watching, memory design |
 | [docs/comparison.md](docs/comparison.md) | Detailed comparison of existing AI tutoring tools |
 | [examples/soul.md](examples/soul.md) | Copy-paste-ready system prompt for your tutor agent |
-| [examples/setup.sh](examples/setup.sh) | tmux launcher script |
+| [examples/setup.sh](examples/setup.sh) | tmux launcher script with language detection |
 | [examples/course-config.md](examples/course-config.md) | Example course configuration and knowledge tracking |
+| [tui/](tui/) | Interactive terminal classroom: chat REPL + tmux session launcher |
 
 ---
 
