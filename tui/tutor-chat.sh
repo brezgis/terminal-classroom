@@ -55,9 +55,15 @@ while true; do
 
   echo ""
   if [[ "$SERVER" == "localhost" ]]; then
-    openclaw agent --agent "$AGENT" --message "$(echo "$msg" | sed "s/'/'\\\\''/g")" 2>/dev/null | sed "s/^/ /"
+    response=$(openclaw agent --agent "$AGENT" --message "$(echo "$msg" | sed "s/'/'\\\\''/g")" 2>/dev/null)
   else
-    ssh "$SERVER" "$REMOTE_PATH $OPENCLAW agent --agent $AGENT --message '$(echo "$msg" | sed "s/'/'\\\\''/g")'" 2>/dev/null | sed "s/^/ /"
+    response=$(ssh "$SERVER" "$REMOTE_PATH $OPENCLAW agent --agent $AGENT --message '$(echo "$msg" | sed "s/'/'\\\\''/g")'" 2>/dev/null)
+  fi
+  if [ -n "$response" ]; then
+    echo -e "${CYAN}${AGENT} →${RESET} $(echo "$response" | head -1)"
+    echo "$response" | tail -n +2 | sed "s/^/    /"
+  else
+    echo -e "${DIM}(no response — check connection)${RESET}"
   fi
   echo ""
 done
