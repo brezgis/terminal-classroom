@@ -36,7 +36,9 @@ Classroom sits at the far right — but with the environment awareness of the to
 **What's missing:**
 - **No environment awareness.** It can't see your terminal or files. You paste code into a web chat.
 - **No memory.** Every conversation starts from scratch. It doesn't know what you struggled with yesterday.
-- **No student model.** Treats every student the same regardless of their level.
+- **No student model.** Treats every student the same regardless of their level — no expertise reversal calibration, no adaptation as you improve.
+- **No stage diagnosis.** It asks Socratic questions, but doesn't diagnose *where* you're stuck using frameworks like Loksa's six stages. A student who can't parse the problem needs different help than one who can't translate their solution to code.
+- **No hint escalation.** Research shows effective tutors provide 5–6 progressive hints before discussing answers (INSPIRE model). CS50 Duck does Socratic questioning but lacks the structured metacognitive → attentional → conceptual → strategic → procedural escalation that research prescribes.
 - **Limited to CS50 context.** Designed for one course, not generalizable.
 - **Web-based.** Not integrated into your development environment.
 
@@ -142,6 +144,9 @@ Here's the gap:
 | Sees your files in real time | Copilot, Cursor, Continue |
 | Sees your terminal output | **Nobody** |
 | Socratic method | CS50 Duck, Khanmigo |
+| Structured hint escalation | **Nobody** |
+| Stage-based stuck diagnosis | **Nobody** |
+| Expertise reversal calibration | **Nobody** |
 | Persistent student model | **Nobody** |
 | Open source | Continue |
 | Works with any editor | CS50 Duck (web) |

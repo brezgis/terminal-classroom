@@ -155,6 +155,80 @@ The follow-up is critical. It converts passive reception into active application
 
 ---
 
+## The INSPIRE Model: What Expert Tutors Actually Do
+
+Lepper and Woolverton (2002) studied what separates effective tutors from ineffective ones and distilled it into seven behaviors — the INSPIRE model:
+
+- **Informed** — deep subject *and* pedagogical knowledge (knowing the concept and knowing how students misunderstand it)
+- **Nurturant** — genuine warmth and rapport, not performed friendliness
+- **Socratic** — questions over answers, always
+- **Indirect** — avoiding blunt negative feedback by posing questions that surface errors ("What does this return when the list is empty?")
+- **Progressive** — escalating from general to specific hints (not jumping to the answer)
+- **Reflective** — asking students to articulate what they learned after solving a problem
+- **Encouraging** — emphasizing *problem difficulty* to protect self-attribution ("This is a tricky one" rather than "You should know this")
+
+The model's most striking finding: effective tutors provide **5–6 continuous hints before discussing an answer**, and they let trivial errors slide to address them later. Mediocre tutors jump to corrections. Great tutors hold their tongue.
+
+---
+
+## Diagnosing Where Students Are Stuck: Loksa's Six Stages
+
+Not all "I'm stuck" is the same stuck. Loksa and Ko (ICER 2016) identified six stages of programming problem-solving, and the right intervention depends entirely on *which stage* the student is in:
+
+| Stage | What's happening | Diagnostic question |
+|-------|-----------------|-------------------|
+| 1. Reinterpret the problem | Can't parse what's being asked | "Can you restate what this problem is asking in your own words?" |
+| 2. Search for analogies | Can't connect to prior knowledge | "Have you seen anything like this before?" |
+| 3. Search for solutions | Can't devise an approach | "How would you solve this by hand, without a computer?" |
+| 4. Evaluate a solution | Has an idea but can't assess it | "Walk me through your approach with a small example — does it work?" |
+| 5. Implement | Knows what to do but can't translate to code | "Can you describe this step in pseudocode first?" |
+| 6. Evaluate implementation | Wrote code but can't verify it | "What test cases would convince you this is correct?" |
+
+When students were taught to identify which stage they occupied, they completed more exercises, made fewer errors, and showed deeper understanding. The single most powerful metacognitive question a tutor can ask: **"What stage of problem-solving are you on right now?"**
+
+---
+
+## The Hint Escalation Sequence
+
+The Socratic Ladder gives the spirit. This gives the mechanics. Research-backed hint escalation follows a specific progression — start abstract, get concrete only as needed:
+
+1. **Metacognitive prompt** — "What stage are you on?" / "What have you tried so far?"
+2. **Attentional hint** — "Look closely at line 7." / "What does this function return?"
+3. **Conceptual hint** — "Remember, lists are zero-indexed." / "Think about how scope works here."
+4. **Strategic hint** — "Try breaking this into two steps." / "What if you solved the simpler case first?"
+5. **Procedural hint** — "You could use a for loop from 0 to len-1."
+6. **Bottom-out hint** — Show the specific fix. Last resort only.
+
+**Wait 3–5 seconds after each question.** Research consistently shows this pause improves response quality, but tutors instinctively rush to fill silence. The silence is doing work.
+
+Rivers' research at CMU found a critical asymmetry that should haunt every tutor: **programming teachers systematically provide novices with less assistance than they actually need.** Meanwhile, the **expertise reversal effect** (Kalyuga et al., 2003) shows that scaffolding which helps novices *actively harms* more advanced students. The prescription is counterintuitive: be *more* generous with hints for beginners, and *more* willing to let advanced students struggle.
+
+---
+
+## The Self-Explanation Effect
+
+Here's the research behind rubber duck debugging: the **self-explanation effect** has an effect size of **d=0.61** across 64 studies and 6,000+ participants (Bisra et al., 2018; Fiorella & Mayer, 2015). When students explain code aloud, they activate different cognitive systems, expose the "illusion of competence," and detect gaps in understanding they didn't know existed.
+
+The protégé effect (Chase et al., 2009) adds another layer: students preparing to teach use **1.3× more metacognitive strategies** than students preparing for a test.
+
+Before helping a student, an expert tutor's first move should be: **"Walk me through your code as if I've never seen the assignment."** This isn't a stalling tactic — it's the single highest-leverage intervention available. Half the time, the student finds their own bug mid-explanation.
+
+---
+
+## Parsons Problems and the Scaffolding Continuum
+
+Not every learning moment needs to be "write code from scratch." Research identifies a scaffolding continuum from most to least support:
+
+**Worked examples → Faded worked examples → Completion problems → Parsons problems → Faded Parsons problems → Scaffolded writing → Independent writing**
+
+**Parsons problems** — where students arrange scrambled code blocks in the correct order — are particularly powerful. An ICER 2024 study (n=199) found they produce **significantly higher grades with significantly less time** and more experimental behavior. Students focus on logic and structure instead of fighting syntax.
+
+**Faded Parsons problems** (Weinman et al., CHI 2021) add blanks within the scrambled blocks, combining arrangement with generation — a bridge between recognition and recall.
+
+The worked example effect (Sweller) is one of educational psychology's most replicated findings: for novices, studying worked examples is more effective than problem-solving because it eliminates the extraneous cognitive load of means-ends search. But remember the expertise reversal effect: what helps novices hurts experts. A tutor must continuously reassess where on this continuum each student belongs.
+
+---
+
 ## Cognitive Load Theory and Programming
 
 Programming imposes three types of cognitive load simultaneously:
@@ -177,6 +251,43 @@ The tutor should ruthlessly triage:
 - **Germane load → protect it.** When the student is thinking through a problem, *don't interrupt*. Silence is the feature.
 
 A common mistake with AI tutors is treating all questions the same. "How do I import this library?" and "Why does my recursive function never terminate?" require fundamentally different responses. The first needs a quick answer. The second needs a guided investigation.
+
+---
+
+## The Warm Demander: Why Warmth Isn't Soft
+
+The research is unambiguous: **relational warmth and cognitive rigor are synergistic, not competing forces.**
+
+The "warm demander" framework (Kleinfeld, 1975; Ware, 2006) describes teachers who expect a great deal of their students, convince them of their brilliance, and help them reach their potential. Warmth first, then demand. Not warmth *instead of* demand.
+
+This matters because **psychological safety is a prerequisite for productive struggle.** Amy Edmondson's research shows that learners who feel safe for interpersonal risk-taking can devote full working memory to technical problems rather than managing anxiety about looking stupid. Without trust, students either avoid help entirely or seek help that short-circuits learning — "just tell me the answer so I can stop feeling incompetent."
+
+Canning et al. found in *Science Advances* that faculty mindset beliefs predicted student achievement **above and beyond all other faculty characteristics** — including race, gender, teaching experience, and tenure status. What the teacher believes about the student's potential matters more than the teacher's credentials.
+
+The most powerful intervention is "wise feedback" (Yeager et al.): framing critical feedback as **"I'm giving you these comments because I have high standards and I believe you can meet them."** In studies, this dramatically improved trust and performance among underrepresented students.
+
+A tutor that's warm but unchallenging is a friend. A tutor that's challenging but cold is a drill sergeant. Neither teaches. You need both.
+
+---
+
+## Growth Mindset in Code
+
+Carol Dweck's research shows that **process praise** (praising effort, strategies, persistence) builds resilience, while **intelligence praise** ("You're so smart") actually undermines performance. In CS, where error messages and failing tests are constant, this framing matters enormously.
+
+The language shift is precise:
+
+| Instead of... | Say... |
+|---|---|
+| "You're a natural" | "You worked through that systematically" |
+| "This is easy" | "This concept takes practice" |
+| "You should know this" | "You don't understand recursion **yet**" |
+| "That's wrong" | "That's an interesting approach — what happens when you trace it with input [3, 1]?" |
+
+The word **"yet"** is doing real work. It reframes a knowledge gap as a temporary state, not an identity.
+
+Normalizing confusion is part of this. When a student says "I'm so lost," the response isn't "Let me explain" — it's **"That's your brain building new connections. Let's find where the confusion starts."** Confusion acknowledged is confusion halfway resolved.
+
+CS-specific research (Murphy & Thomas, 2008) found that growth mindset interventions improve interest and persistence in CS. Krause-Levy et al. (ICER 2021) found that **the first CS course is the critical window** where belonging is built or destroyed — early emotional and relational investments have outsized returns on persistence.
 
 ---
 
