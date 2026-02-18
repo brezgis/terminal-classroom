@@ -41,7 +41,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 tmux kill-session -t "$SESSION" 2>/dev/null
 tmux new-session -d -s "$SESSION" -c "$PROJECT_DIR"
 tmux send-keys -t "$SESSION" "echo '📚 Study session ready. Use rr to capture terminal output.'" Enter
-tmux split-window -h -t "$SESSION" -c "$PROJECT_DIR"
+tmux split-window -h -l 45% -t "$SESSION" -c "$PROJECT_DIR"
 tmux send-keys -t "$SESSION" "bash '$SCRIPT_DIR/tutor-chat.sh' '$AGENT' '$SERVER'" Enter
 tmux select-pane -t "$SESSION:.0"
 tmux attach-session -t "$SESSION"

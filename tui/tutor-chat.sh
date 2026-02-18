@@ -41,7 +41,7 @@ echo ""
 
 while true; do
   echo -ne "${GREEN}you → ${RESET}"
-  read -r msg
+  read -e -r msg
   if [ -z "$msg" ]; then continue; fi
   if [[ "$msg" == "quit" || "$msg" == "exit" || "$msg" == "bye" ]]; then
     echo -e "${DIM}Session ended. Your tutor will write the summary.${RESET}"
