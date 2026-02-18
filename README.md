@@ -60,16 +60,19 @@ See [docs/comparison.md](docs/comparison.md) for the detailed breakdown.
 Your tutor lives in a tmux split alongside your editor:
 
 ```
- ________________________    ________________________
-|                        |  |                        |
-|   Your editor +        |  |   AI Tutor             |
-|   terminal             |  |                        |
-|                        |  |   "What do you think   |
-|   $ javac Foo.java     |  |    that error means?"  |
-|   error: line 42...    |  |                        |
-|                        |  |   Reads your terminal  |
-|________________________|  |   Watches your files   |
-                            |________________________|
+┌────────────────────────────────────────────────────────┐
+│                     tmux session                       │
+│                                                        │
+│  ┌────────────────────────┐  ┌───────────────────────┐ │
+│  │  Your editor +         │  │  AI Tutor             │ │
+│  │  terminal              │  │                       │ │
+│  │                        │  │  "What do you think   │ │
+│  │  $ javac Foo.java      │  │   that error means?"  │ │
+│  │  error: line 42...     │  │                       │ │
+│  │                        │  │  Reads your terminal  │ │
+│  │                        │  │  Watches your files   │ │
+│  └────────────────────────┘  └───────────────────────┘ │
+└────────────────────────────────────────────────────────┘
 ```
 
 The tutor gets context through two channels:
