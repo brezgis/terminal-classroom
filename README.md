@@ -60,19 +60,19 @@ See [docs/comparison.md](docs/comparison.md) for the detailed breakdown.
 Your tutor lives in a tmux split alongside your editor:
 
 ```
-┌──────────────────────────────────────────────────┐
-│                  tmux session                     │
-│                                                   │
-│  ┌────────────────────┐  ┌─────────────────────┐  │
-│  │   Your editor +    │  │    AI Tutor          │  │
-│  │   terminal         │  │                      │  │
-│  │                    │  │  "What do you think   │  │
-│  │  $ javac Foo.java  │  │   that error means?" │  │
-│  │  error: line 42... │  │                      │  │
-│  │                    │  │  Reads your terminal  │  │
-│  │                    │  │  Watches your files   │  │
-│  └────────────────────┘  └─────────────────────┘  │
-└──────────────────────────────────────────────────┘
++---------------------------------------------------+
+|                  tmux session                      |
+|                                                    |
+|  +---------------------+  +---------------------+ |
+|  |  Your editor +      |  |  AI Tutor           | |
+|  |  terminal           |  |                     | |
+|  |                     |  |  "What do you think  | |
+|  |  $ javac Foo.java   |  |   that error means?"| |
+|  |  error: line 42...  |  |                     | |
+|  |                     |  |  Reads your terminal | |
+|  |                     |  |  Watches your files  | |
+|  +---------------------+  +---------------------+ |
++---------------------------------------------------+
 ```
 
 The tutor gets context through two channels:
@@ -167,8 +167,6 @@ See [docs/pedagogy.md](docs/pedagogy.md) for the full research deep dive.
 ---
 
 ## Philosophy
-
-A few opinions, since you asked:
 
 1. **The best tutor is strategically unhelpful.** If the tutor always makes you feel helped, it's failing. Learning feels like confusion resolving into clarity. That confusion is load-bearing.
 
