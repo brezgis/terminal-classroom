@@ -24,6 +24,10 @@ fi
 
 AGENT="${1:-tutor}"
 SERVER="${2:-localhost}"
+# Full path to openclaw binary — needed for non-interactive SSH (nvm isn't in PATH)
+OPENCLAW="${OPENCLAW:-openclaw}"
+# Ensure the right node is in PATH for the openclaw shebang (#!/usr/bin/env node)
+REMOTE_PATH="PATH=$(dirname "$OPENCLAW"):\$PATH"
 
 BOLD="\033[1m"
 CYAN="\033[36m"
@@ -44,7 +48,7 @@ while true; do
     if [[ "$SERVER" == "localhost" ]]; then
       openclaw agent --agent "$AGENT" --message 'Session over, thanks!' > /dev/null 2>&1
     else
-      ssh "$SERVER" "openclaw agent --agent $AGENT --message 'Session over, thanks!'" > /dev/null 2>&1
+      ssh "$SERVER" "$REMOTE_PATH $OPENCLAW agent --agent $AGENT --message 'Session over, thanks!'" > /dev/null 2>&1
     fi
     break
   fi
@@ -53,7 +57,7 @@ while true; do
   if [[ "$SERVER" == "localhost" ]]; then
     openclaw agent --agent "$AGENT" --message "$(echo "$msg" | sed "s/'/'\\\\''/g")" 2>/dev/null | sed "s/^/ /"
   else
-    ssh "$SERVER" "openclaw agent --agent $AGENT --message '$(echo "$msg" | sed "s/'/'\\\\''/g")'" 2>/dev/null | sed "s/^/ /"
+    ssh "$SERVER" "$REMOTE_PATH $OPENCLAW agent --agent $AGENT --message '$(echo "$msg" | sed "s/'/'\\\\''/g")'" 2>/dev/null | sed "s/^/ /"
   fi
   echo ""
 done

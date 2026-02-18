@@ -116,10 +116,17 @@ mkdir -p ~/.openclaw/agents/tutor/{course-state,session-summaries}
 ### 4. Launch a tutoring session
 
 ```bash
-# Using the provided launcher script
-./examples/setup.sh ~/my-project
+# Launch a tmux split-screen session with your tutor
+./tui/tutor-session.sh tutor localhost ~/my-project
 
-# Or manually: create a tmux split with the tutor in the right pane
+# Or for a remote OpenClaw server:
+./tui/tutor-session.sh tutor myserver ~/my-project
+```
+
+If OpenClaw is installed via nvm or a non-standard path, set the `OPENCLAW` environment variable:
+
+```bash
+export OPENCLAW=/path/to/openclaw
 ```
 
 ### 5. Add the `rr` command wrapper
@@ -178,7 +185,7 @@ See [docs/pedagogy.md](docs/pedagogy.md) for the full research deep dive.
 | [docs/architecture.md](docs/architecture.md) | Technical architecture: tmux integration, file watching, memory design |
 | [docs/comparison.md](docs/comparison.md) | Detailed comparison of existing AI tutoring tools |
 | [examples/soul.md](examples/soul.md) | Copy-paste-ready system prompt for your tutor agent |
-| [examples/setup.sh](examples/setup.sh) | tmux launcher script with language detection |
+| [tui/tutor-session.sh](tui/tutor-session.sh) | tmux launcher script for split-screen tutoring |
 | [examples/course-config.md](examples/course-config.md) | Example course configuration and knowledge tracking |
 | [tui/](tui/) | Interactive terminal classroom: chat REPL + tmux session launcher |
 
