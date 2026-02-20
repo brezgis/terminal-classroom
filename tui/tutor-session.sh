@@ -38,15 +38,21 @@ PROJECT_DIR="${3:-$HOME}"
 SESSION="$AGENT"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-tmux kill-session -t "$SESSION" 2>/dev/null
-tmux new-session -d -s "$SESSION" -c "$PROJECT_DIR"
-tmux send-keys -t "$SESSION" "echo '📚 Study session ready. Use rr to capture terminal output.'" Enter
-tmux split-window -h -l 45% -t "$SESSION" -c "$PROJECT_DIR"
-# Prefer Python chat (word-wrapped input), fall back to bash
-if python3 -c "from prompt_toolkit import prompt" 2>/dev/null; then
-  tmux send-keys -t "$SESSION" "python3 '$SCRIPT_DIR/tutor-chat.py' '$AGENT' '$SERVER'" Enter
+TMUX="tmux -L $SESSION"
+$TMUX kill-session -t "$SESSION" 2>/dev/null
+$TMUX new-session -d -s "$SESSION" -c "$PROJECT_DIR"
+$TMUX send-keys -t "$SESSION" "echo '📚 Study session ready. Use rr to capture terminal output.'" Enter
+$TMUX split-window -h -l 45% -t "$SESSION" -c "$PROJECT_DIR"
+# Find python3 with textual installed
+PYTHON3="$(which python3 2>/dev/null || echo python3)"
+
+# Prefer Textual TUI (rich interface), fall back to prompt_toolkit, then bash
+if "$PYTHON3" -c "import textual" 2>/dev/null; then
+  $TMUX send-keys -t "$SESSION" "'$PYTHON3' '$SCRIPT_DIR/chat_tui.py' '$AGENT' '$SERVER'" Enter
+elif "$PYTHON3" -c "from prompt_toolkit import prompt" 2>/dev/null; then
+  $TMUX send-keys -t "$SESSION" "COLUMNS=\$(tput cols) '$PYTHON3' '$SCRIPT_DIR/tutor-chat.py' '$AGENT' '$SERVER'" Enter
 else
-  tmux send-keys -t "$SESSION" "bash '$SCRIPT_DIR/tutor-chat.sh' '$AGENT' '$SERVER'" Enter
+  $TMUX send-keys -t "$SESSION" "bash '$SCRIPT_DIR/tutor-chat.sh' '$AGENT' '$SERVER'" Enter
 fi
-tmux select-pane -t "$SESSION:.0"
-tmux attach-session -t "$SESSION"
+$TMUX select-pane -t "$SESSION:.0"
+$TMUX attach-session -t "$SESSION"
