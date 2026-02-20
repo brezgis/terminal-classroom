@@ -1,26 +1,38 @@
 Screen {
-    background: #1e1e2e;
+    background: #181818;
 }
 
 #header {
     dock: top;
     height: 3;
-    background: #1e1e2e;
+    background: #181818;
     color: #cdd6f4;
     padding: 0 1;
 }
 
 #chat {
-    background: #1e1e2e;
+    background: #181818;
     color: #cdd6f4;
     border: none;
     scrollbar-size-vertical: 0;
+    scrollbar-size-horizontal: 0;
+    overflow-x: hidden;
     margin: 0 1;
+}
+
+#chat:focus {
+    background: #181818;
+    border: none;
+}
+
+RichLog:focus {
+    background: #181818;
+    border: none;
 }
 
 #spinner {
     height: 1;
-    background: #1e1e2e;
+    background: #181818;
     color: #6c7086;
     margin: 0 1;
     display: none;
@@ -28,9 +40,9 @@ Screen {
 
 #input {
     height: 4;
-    background: #1e1e2e;
+    background: #181818;
     color: #cdd6f4;
-    border: solid #313244;
+    border: solid #444444;
     margin: 0 1 0 1;
     scrollbar-size-vertical: 0;
 }
@@ -40,5 +52,13 @@ Screen {
 }
 
 TextArea > .text-area--cursor-line {
-    background: #1e1e2e;
+    background: #181818;
+}
+
+LoadingIndicator {
+    display: none;
+}
+
+Worker {
+    display: none;
 }

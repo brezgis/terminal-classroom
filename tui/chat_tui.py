@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Textual TUI chat app for OpenClaw agents."""
+from __future__ import annotations
 
 import asyncio
 import os
@@ -77,23 +78,14 @@ def build_command(message: str) -> list[str]:
 class ChatInput(TextArea):
     """Multi-line input with Enter to send."""
 
-    BINDINGS = [
-        Binding("enter", "submit", "Send", show=False),
-    ]
-
-    def action_submit(self) -> None:
-        text = self.text.strip()
-        if text:
-            self.app.send_message(text)
-            self.clear()
-
     def _on_key(self, event) -> None:
         if event.key == "enter":
             event.prevent_default()
             event.stop()
-            self.action_submit()
-        elif event.key in ("shift+enter", "ctrl+enter"):
-            self.insert("\n")
+            text = self.text.strip()
+            if text:
+                self.app.send_message(text)
+                self.clear()
 
 
 class ChatApp(App):
@@ -111,6 +103,7 @@ class ChatApp(App):
     _spinner_index = 0
     _spinner_timer: Timer | None = None
     _thinking_msg = ""
+    _messages: list[str] = []  # stored markup lines for reflow on resize
 
     def compose(self) -> ComposeResult:
         yield Static(
@@ -119,9 +112,27 @@ class ChatApp(App):
             id="header",
         )
         with Vertical():
-            yield RichLog(id="chat", wrap=True, highlight=False, markup=False)
+            chat = RichLog(id="chat", wrap=True, highlight=False, markup=True)
+            chat.can_focus = False
+            yield chat
             yield Static("", id="spinner")
             yield ChatInput(id="input")
+
+    def _write_msg(self, markup: str) -> None:
+        """Write a line to the chat log and store it for reflow."""
+        self._messages.append(markup)
+        self.query_one("#chat", RichLog).write(markup)
+
+    def _reflow(self) -> None:
+        """Clear and rewrite all messages to reflow at new width."""
+        chat = self.query_one("#chat", RichLog)
+        chat.clear()
+        for msg in self._messages:
+            chat.write(msg)
+
+    def on_resize(self, event) -> None:
+        """Reflow chat content when terminal is resized."""
+        self._reflow()
 
     def on_mount(self) -> None:
         self.query_one("#input").focus()
@@ -136,9 +147,6 @@ class ChatApp(App):
 
     def _tick_spinner(self) -> None:
         self._spinner_index = (self._spinner_index + 1) % len(self._spinner_frames)
-        # Change message every full cycle
-        if self._spinner_index == 0:
-            self._thinking_msg = random.choice(THINKING_MESSAGES)
         frame = self._spinner_frames[self._spinner_index]
         self.query_one("#spinner", Static).update(
             f"  [dim]{frame} {self._thinking_msg}...[/dim]"
@@ -151,44 +159,37 @@ class ChatApp(App):
         self.query_one("#spinner", Static).display = False
 
     def send_message(self, text: str) -> None:
-        chat = self.query_one("#chat", RichLog)
-        # Use Rich Text objects to avoid markup parsing issues
-        msg = Text()
-        msg.append("You → ", style="bold #a6e3a1")
-        msg.append(text)
-        chat.write(msg)
+        from rich.markup import escape
+        self._write_msg("")  # spacing before user message
+        self._write_msg(f"[bold #a6e3a1]You →[/bold #a6e3a1] {escape(text)}")
+        self._write_msg("")  # spacing between user and agent
         self._start_spinner()
-        self.run_worker(self._get_response(text), exclusive=False, thread=True)
+        self._run_response(text)
 
-    def _get_response(self, text: str) -> None:
-        """Run in thread to avoid blocking — no async needed."""
-        import subprocess
+    def _run_response(self, text: str) -> None:
+        """Launch response fetch as a background task (no worker = no loading bar)."""
+        asyncio.get_event_loop().create_task(self._get_response(text))
+
+    async def _get_response(self, text: str) -> None:
         cmd = build_command(text)
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
-            raw = (result.stdout + result.stderr).strip()
+            proc = await asyncio.create_subprocess_exec(
+                *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+            )
+            stdout, stderr = await proc.communicate()
+            raw = (stdout.decode() + stderr.decode()).strip()
             lines = [l for l in raw.splitlines() if l.strip().lower() not in ("completed", "sent", "queued")]
             response = "\n".join(lines).strip()
-            self.call_from_thread(self._show_response, response)
+            self._stop_spinner()
+            from rich.markup import escape
+            if response:
+                self._write_msg(f"[bold #89b4fa]{DISPLAY_NAME} →[/bold #89b4fa] {escape(response)}")
+            else:
+                self._write_msg("[dim](no response)[/dim]")
         except Exception as e:
-            self.call_from_thread(self._show_response, "", str(e))
-
-    def _show_response(self, response: str, error: str = "") -> None:
-        chat = self.query_one("#chat", RichLog)
-        self._stop_spinner()
-        if error:
-            msg = Text()
-            msg.append("Error: ", style="bold red")
-            msg.append(error)
-            chat.write(msg)
-        elif response:
-            msg = Text()
-            msg.append(f"{DISPLAY_NAME} → ", style="bold #89b4fa")
-            msg.append(response)
-            chat.write(msg)
-        else:
-            chat.write(Text("(no response)", style="dim"))
-        chat.write(Text(""))  # blank line spacer
+            self._stop_spinner()
+            from rich.markup import escape
+            self._write_msg(f"[bold red]Error:[/bold red] {escape(str(e))}")
 
 
 if __name__ == "__main__":

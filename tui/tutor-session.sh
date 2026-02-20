@@ -39,12 +39,16 @@ SESSION="$AGENT"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 TMUX="tmux -L $SESSION"
-$TMUX kill-session -t "$SESSION" 2>/dev/null
+$TMUX kill-server 2>/dev/null
 $TMUX new-session -d -s "$SESSION" -c "$PROJECT_DIR"
 $TMUX send-keys -t "$SESSION" "echo '📚 Study session ready. Use rr to capture terminal output.'" Enter
 $TMUX split-window -h -l 45% -t "$SESSION" -c "$PROJECT_DIR"
-# Find python3 with textual installed
-PYTHON3="$(which python3 2>/dev/null || echo python3)"
+# Find python3 with textual installed — prefer conda
+if [ -x /opt/anaconda3/bin/python3 ]; then
+  PYTHON3="/opt/anaconda3/bin/python3"
+else
+  PYTHON3="$(which python3 2>/dev/null || echo python3)"
+fi
 
 # Prefer Textual TUI (rich interface), fall back to prompt_toolkit, then bash
 if "$PYTHON3" -c "import textual" 2>/dev/null; then
