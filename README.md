@@ -186,7 +186,9 @@ See [docs/pedagogy.md](docs/pedagogy.md) for the full research deep dive.
 | [docs/comparison.md](docs/comparison.md) | Detailed comparison of existing AI tutoring tools |
 | [examples/soul.md](examples/soul.md) | Copy-paste-ready system prompt for your tutor agent |
 | [tui/tutor-session.sh](tui/tutor-session.sh) | tmux launcher script for split-screen tutoring |
-| [tui/tutor-chat.py](tui/tutor-chat.py) | Tutor chat REPL with word-wrapped I/O (prompt_toolkit) |
+| [tui/chat_tui.py](tui/chat_tui.py) | Rich Textual TUI — spinner, resize reflow, Catppuccin theme |
+| [tui/chat_tui.tcss](tui/chat_tui.tcss) | Stylesheet for the Textual TUI |
+| [tui/tutor-chat.py](tui/tutor-chat.py) | Lightweight chat REPL with word-wrapped I/O (prompt_toolkit) |
 | [agent-tui.py](agent-tui.py) | Generic agent chat TUI — works with any OpenClaw agent |
 | [agent-tui.sh](agent-tui.sh) | Shell wrapper — auto-detects prompt_toolkit, falls back to bash |
 | [examples/course-config.md](examples/course-config.md) | Example course configuration and knowledge tracking |
