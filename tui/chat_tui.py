@@ -78,6 +78,11 @@ def build_command(message: str) -> list[str]:
 class ChatInput(TextArea):
     """Multi-line input with Enter to send."""
 
+    BINDINGS = [
+        Binding("ctrl+c", "app.quit", "Quit", show=False, priority=True),
+        Binding("ctrl+d", "app.quit", "Quit", show=False, priority=True),
+    ]
+
     def _on_key(self, event) -> None:
         if event.key == "enter":
             event.prevent_default()
