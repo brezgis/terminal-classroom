@@ -42,6 +42,11 @@ tmux kill-session -t "$SESSION" 2>/dev/null
 tmux new-session -d -s "$SESSION" -c "$PROJECT_DIR"
 tmux send-keys -t "$SESSION" "echo '📚 Study session ready. Use rr to capture terminal output.'" Enter
 tmux split-window -h -l 45% -t "$SESSION" -c "$PROJECT_DIR"
-tmux send-keys -t "$SESSION" "bash '$SCRIPT_DIR/tutor-chat.sh' '$AGENT' '$SERVER'" Enter
+# Prefer Python chat (word-wrapped input), fall back to bash
+if python3 -c "from prompt_toolkit import prompt" 2>/dev/null; then
+  tmux send-keys -t "$SESSION" "python3 '$SCRIPT_DIR/tutor-chat.py' '$AGENT' '$SERVER'" Enter
+else
+  tmux send-keys -t "$SESSION" "bash '$SCRIPT_DIR/tutor-chat.sh' '$AGENT' '$SERVER'" Enter
+fi
 tmux select-pane -t "$SESSION:.0"
 tmux attach-session -t "$SESSION"
