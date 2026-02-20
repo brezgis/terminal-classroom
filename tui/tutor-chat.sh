@@ -40,8 +40,7 @@ echo -e "${DIM}Type your message and press Enter. Ctrl+C to exit.${RESET}"
 echo ""
 
 while true; do
-  echo -ne "${GREEN}you → ${RESET}"
-  read -e -r msg
+  read -e -r -p $'\033[32myou → \033[0m' msg
   if [ -z "$msg" ]; then continue; fi
   if [[ "$msg" == "quit" || "$msg" == "exit" || "$msg" == "bye" ]]; then
     echo -e "${DIM}Session ended. Your tutor will write the summary.${RESET}"
@@ -60,8 +59,18 @@ while true; do
     response=$(ssh "$SERVER" "$REMOTE_PATH $OPENCLAW agent --agent $AGENT --message '[terminal] $(echo "$msg" | sed "s/'/'\\\\''/g")'" 2>&1)
   fi
   if [ -n "$response" ]; then
-    echo -e "${CYAN}${AGENT} →${RESET} $(echo "$response" | head -1)"
-    echo "$response" | tail -n +2 | sed "s/^/    /"
+    # Word-wrap responses to terminal width (with 4-char indent for continuation)
+    WRAP_WIDTH="${COLUMNS:-80}"
+    FIRST_PREFIX="${CYAN}${AGENT} →${RESET} "
+    CONT_PREFIX="    "
+    echo "$response" | fold -s -w "$WRAP_WIDTH" | while IFS= read -r line; do
+      if [ -z "$_first_done" ]; then
+        echo -e "${FIRST_PREFIX}${line}"
+        _first_done=1
+      else
+        echo -e "${CONT_PREFIX}${line}"
+      fi
+    done
   else
     echo -e "${DIM}(no response — check connection)${RESET}"
   fi
