@@ -8,6 +8,7 @@ import textwrap
 import shutil
 
 AGENT = sys.argv[1] if len(sys.argv) > 1 else "tutor"
+DISPLAY_NAME = AGENT.capitalize()
 SERVER = sys.argv[2] if len(sys.argv) > 2 else "localhost"
 OPENCLAW = os.environ.get("OPENCLAW", "openclaw")
 REMOTE_PATH = f"PATH={os.path.dirname(OPENCLAW)}:$PATH"
@@ -20,20 +21,55 @@ DIM = "\033[2m"
 RESET = "\033[0m"
 
 def get_width():
+    """Get terminal width — try tput (works in tmux panes), then COLUMNS, then shutil."""
+    import subprocess as _sp
+    try:
+        result = _sp.run(['tput', 'cols'], capture_output=True, text=True, timeout=2)
+        if result.returncode == 0:
+            return int(result.stdout.strip())
+    except Exception:
+        pass
+    try:
+        cols = int(os.environ.get('COLUMNS', 0))
+        if cols > 0:
+            return cols
+    except (ValueError, TypeError):
+        pass
     return shutil.get_terminal_size().columns
 
-def wrap_text(text, prefix_len=0):
-    """Word-wrap text to terminal width, accounting for prefix on first line."""
+def wrap_text(text, first_prefix_len=0, cont_prefix_len=4):
+    """Word-wrap text to terminal width, accounting for prefixes.
+    
+    The response from openclaw agent often comes pre-wrapped with \n.
+    We rejoin soft-wrapped lines into paragraphs (split on \n\n),
+    then re-wrap to the actual terminal width.
+    """
     width = get_width()
     lines = []
-    for paragraph in text.split('\n'):
-        if not paragraph.strip():
+    is_first = True
+    
+    # Rejoin soft wraps: split on double newlines (real paragraph breaks),
+    # then collapse single newlines within each paragraph into spaces
+    paragraphs = text.split('\n\n')
+    
+    for paragraph in paragraphs:
+        # Collapse single newlines into spaces (undo pre-wrapping)
+        reflowed = ' '.join(paragraph.split())
+        if not reflowed:
             lines.append('')
+            is_first = False
             continue
-        wrapped = textwrap.wrap(paragraph, width=width - 4,
-                                break_long_words=False,
-                                break_on_hyphens=False)
-        lines.extend(wrapped if wrapped else [''])
+        if is_first:
+            first_wrapped = textwrap.wrap(reflowed, width=width - first_prefix_len,
+                                          break_long_words=False,
+                                          break_on_hyphens=False)
+            lines.extend(first_wrapped if first_wrapped else [''])
+            is_first = False
+        else:
+            wrapped = textwrap.wrap(reflowed, width=width - cont_prefix_len,
+                                    break_long_words=False,
+                                    break_on_hyphens=False)
+            lines.extend(wrapped if wrapped else [''])
     return lines
 
 def send_message(msg):
@@ -66,7 +102,7 @@ def get_input_fallback():
     return None
 
 def main():
-    print(f"{CYAN}{BOLD}{AGENT}{RESET} {DIM}— CS Tutor{RESET}")
+    print(f"{CYAN}{BOLD}{DISPLAY_NAME}{RESET} {DIM}— CS Tutor{RESET}")
     print(f"{DIM}Type your message and press Enter. Ctrl+C or Ctrl+D to exit.{RESET}")
     print()
 
@@ -101,10 +137,12 @@ def main():
         print()
         response = send_message(msg)
         if response:
-            lines = wrap_text(response)
+            # "Rook → " = display name + " → " = len(DISPLAY_NAME) + 3
+            prefix_len = len(DISPLAY_NAME) + 3
+            lines = wrap_text(response, first_prefix_len=prefix_len, cont_prefix_len=4)
             for i, line in enumerate(lines):
                 if i == 0:
-                    print(f"{CYAN}{AGENT} →{RESET} {line}")
+                    print(f"{CYAN}{DISPLAY_NAME} →{RESET} {line}")
                 else:
                     print(f"    {line}")
         else:

@@ -23,6 +23,7 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
 fi
 
 AGENT="${1:-tutor}"
+DISPLAY_NAME="${AGENT^}"
 SERVER="${2:-localhost}"
 # Full path to openclaw binary — needed for non-interactive SSH (nvm isn't in PATH)
 OPENCLAW="${OPENCLAW:-openclaw}"
@@ -35,7 +36,7 @@ GREEN="\033[32m"
 DIM="\033[2m"
 RESET="\033[0m"
 
-echo -e "${CYAN}${BOLD}${AGENT}${RESET} ${DIM}— CS Tutor${RESET}"
+echo -e "${CYAN}${BOLD}${DISPLAY_NAME}${RESET} ${DIM}— CS Tutor${RESET}"
 echo -e "${DIM}Type your message and press Enter. Ctrl+C to exit.${RESET}"
 echo ""
 
@@ -61,11 +62,11 @@ while true; do
   if [ -n "$response" ]; then
     # Word-wrap responses to terminal width (with 4-char indent for continuation)
     WRAP_WIDTH="${COLUMNS:-80}"
-    FIRST_PREFIX="${CYAN}${AGENT} →${RESET} "
+    FIRST_PREFIX="${CYAN}${DISPLAY_NAME} →${RESET} "
     CONT_PREFIX="    "
     echo "$response" | fold -s -w "$WRAP_WIDTH" | while IFS= read -r line; do
       if [ -z "$_first_done" ]; then
-        echo -e "${FIRST_PREFIX}${line}"
+        echo -e "${CYAN}${DISPLAY_NAME} →${RESET} ${line}"
         _first_done=1
       else
         echo -e "${CONT_PREFIX}${line}"
